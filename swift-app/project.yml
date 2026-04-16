@@ -1,0 +1,33 @@
+name: ClaudeNotifier
+options:
+  bundleIdPrefix: com.claude-buddy
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+targets:
+  ClaudeNotifier:
+    type: application
+    platform: macOS
+    sources:
+      - ClaudeNotifier
+    resources:
+      - ClaudeNotifier/NotificationIcon.png
+      - ClaudeNotifier/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.claude-buddy.ClaudeNotifier
+        SWIFT_VERSION: "5.9"
+        MACOSX_DEPLOYMENT_TARGET: "13.0"
+        CODE_SIGN_IDENTITY: ""
+        CODE_SIGNING_REQUIRED: "NO"
+        CODE_SIGNING_ALLOWED: "NO"
+    info:
+      path: ClaudeNotifier/Info.plist
+      properties:
+        LSUIElement: true
+        NSHighResolutionCapable: true
+        CFBundleName: Claude Code Notifier
+        CFBundleDisplayName: Claude Code Notifier
+        CFBundleIdentifier: com.claude-buddy.ClaudeNotifier
+        CFBundleVersion: "1"
+        CFBundleShortVersionString: "1.0"
