@@ -36,6 +36,7 @@ const COMPANION_ZIP_NAME = 'ClaudeNotifier.app.zip';
 
 const TERMINAL_NOTIFIER_VERSION = '2.0.0';
 const TERMINAL_NOTIFIER_URL = `https://github.com/julienXX/terminal-notifier/releases/download/${TERMINAL_NOTIFIER_VERSION}/terminal-notifier-${TERMINAL_NOTIFIER_VERSION}.zip`;
+const TERMINAL_NOTIFIER_SHA256 = '316e767d979d12adb12c3538931b245108f8b1064af44087414c096cb3376d0c';
 const TERMINAL_NOTIFIER_APP  = path.join(os.homedir(), '.claude-notifier', 'bin', 'terminal-notifier.app');
 const TERMINAL_NOTIFIER_BIN  = path.join(TERMINAL_NOTIFIER_APP, 'Contents', 'MacOS', 'terminal-notifier');
 
@@ -263,6 +264,14 @@ async function installTerminalNotifier() {
   try {
     await downloadFile(TERMINAL_NOTIFIER_URL, zipPath, 'terminal-notifier.zip');
     console.log('✓ Downloaded terminal-notifier');
+
+    const actualHash = sha256Hex(zipPath);
+    if (actualHash.toLowerCase() !== TERMINAL_NOTIFIER_SHA256.toLowerCase()) {
+      throw new Error(
+        `terminal-notifier checksum mismatch. Expected ${TERMINAL_NOTIFIER_SHA256}, got ${actualHash}`
+      );
+    }
+    console.log('✓ terminal-notifier checksum verified');
 
     const extractDir = path.join(tempDir, 'extracted');
     fs.mkdirSync(extractDir, { recursive: true });
