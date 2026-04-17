@@ -55,7 +55,7 @@ The app is locally signed by Xcode — no Apple Developer account needed.
 
 **Uninstall:**
 ```bash
-node setup/uninstall.js --clean-all
+node setup/uninstall.js
 ```
 
 ---
