@@ -29,9 +29,9 @@ npx claude-alert uninstall
 
 ---
 
-### Tier 2 — Full Install (Robot + Rich Notifications)
+### Tier 2 — Full Install (Animated Robot Menu Bar)
 
-Requires Xcode. Gives you the animated robot menu bar app and richer notifications.
+Requires Xcode. Adds the animated robot in your menu bar — speeds up during pending approvals, celebrates after you approve.
 
 **Step 1 — Install Xcode Command Line Tools (if needed):**
 ```bash
@@ -54,7 +54,7 @@ xcodebuild -project swift-app/ClaudeNotifier.xcodeproj \
 open /tmp/claude-notifier-build/Build/Products/Release/ClaudeNotifier.app
 ```
 
-The robot appears in your menu bar. Locally signed by Xcode — no Apple Developer account needed.
+The robot appears in your menu bar and animates with each approval cycle. Notifications are still delivered via terminal-notifier (same as Tier 1). Locally signed by Xcode — no Apple Developer account needed.
 
 **Uninstall:**
 ```bash
@@ -137,9 +137,9 @@ Advanced fallback: edit `~/.claude-notifier/settings.json` directly. All fields 
 
 ### Notification Style
 
-For approval prompts, switch ClaudeNotifier to **Alert** style so the banner stays on screen until you act:
+For approval prompts, switch terminal-notifier to **Alert** style so the banner stays on screen until you act:
 
-**System Settings → Notifications → ClaudeNotifier → Alerts**
+**System Settings → Notifications → terminal-notifier → Alerts**
 
 ---
 
@@ -164,7 +164,7 @@ jq 'group_by(.riskLevel) | map({risk: .[0].riskLevel, count: length})' ~/.claude
 
 **No notification appears**
 - Check logs: `tail -20 ~/.claude-notifier/error.log`
-- Verify notification permission: System Settings → Notifications → ClaudeNotifier
+- Verify notification permission: System Settings → Notifications → terminal-notifier
 
 **Hooks not firing**
 - Check: `cat ~/.claude/settings.json | grep claude-alert`
@@ -191,9 +191,13 @@ Use `--clean-all` to also remove audit logs and settings.
 
 ---
 
+## Security
+
+The terminal-notifier binary is downloaded from GitHub Releases and its SHA256 checksum is verified before installation. If the checksum doesn't match, installation is aborted.
+
 ## Privacy
 
-All data stays local in `~/.claude-notifier/`. Claude Alert stores audit entries, pending approval metadata (including source app, source bundle ID, and source working directory), user settings, and local error logs. No network requests. No telemetry. You own your audit log.
+All data stays local in `~/.claude-notifier/`. Claude Alert stores audit entries, pending approval metadata (including source app, source bundle ID, and source working directory), user settings, and local error logs. No network requests beyond the one-time terminal-notifier download. No telemetry. You own your audit log.
 
 ---
 
