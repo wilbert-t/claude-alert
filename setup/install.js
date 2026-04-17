@@ -441,6 +441,11 @@ function copyScripts() {
       );
     }
     console.log(`✓ Copied scripts to ${STABLE_SCRIPTS_DIR}`);
+
+    // Copy notification icon for terminal-notifier
+    const iconSrc = path.join(__dirname, '..', 'swift-app', 'ClaudeNotifier', 'Assets.xcassets', 'AppIcon.appiconset', 'icon_128x128.png');
+    const iconDst = path.join(NOTIFIER_DIR, 'icon.png');
+    if (fs.existsSync(iconSrc)) fs.copyFileSync(iconSrc, iconDst);
   } catch (err) {
     console.error(`✗ Failed to copy scripts: ${err.message}`);
     throw err;
