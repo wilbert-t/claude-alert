@@ -8,43 +8,65 @@ Never miss a Claude Code approval prompt.
 
 ## Install
 
-### Via GitHub (Recommended)
+### Tier 1 — Quick Install (Recommended)
 
-Clone the repo and run the install script directly — no build step, no external dependencies required.
+No Xcode required. Works on any Mac.
 
+```bash
+npx claude-alert install
+```
+
+What you get:
+- Native macOS banner notifications
+- Sound alerts (Low / Medium / High risk)
+- Full audit log at `~/.claude-notifier/audit.json`
+- Auto-approved low-risk operations (no interruption)
+
+**Uninstall:**
+```bash
+npx claude-alert uninstall
+```
+
+---
+
+### Tier 2 — Full Install (Robot + Rich Notifications)
+
+Requires Xcode. Gives you the animated robot menu bar app and richer notifications.
+
+**Step 1 — Install Xcode Command Line Tools (if needed):**
+```bash
+xcode-select --install
+```
+
+**Step 2 — Clone and install hooks:**
 ```bash
 git clone https://github.com/wilbert-t/claude-buddy.git
 cd claude-buddy
 node setup/install.js
 ```
 
-This registers all hooks, copies scripts to `~/.claude-notifier/scripts/`, and compiles the Swift notification helper on macOS.
+**Step 3 — Build the companion app:**
+1. Open `swift-app/ClaudeNotifier.xcodeproj` in Xcode
+2. Select your Mac as the target device
+3. Press **Cmd+R** to build and run
+4. The robot appears in your menu bar
 
-> **macOS requirement:** Xcode Command Line Tools must be installed for the notification helper to compile. If not installed: `xcode-select --install`
+The app is locally signed by Xcode — no Apple Developer account needed.
 
 **Uninstall:**
-
 ```bash
 node setup/uninstall.js
 ```
 
 ---
 
-### Via Plugin
+### Via Plugin (Claude Code only)
 
 ```
 /plugin install claude-alert@claude-plugins-official
 ```
 
-Hooks register automatically. Done.
-
-### Via npm
-
-```bash
-npx claude-alert install
-```
-
-> Note: The npm path is available but the GitHub install above is recommended for now while code signing and notarization are being finalized.
+Hooks register automatically. Tier 1 notifications only.
 
 ---
 
@@ -152,17 +174,17 @@ jq 'group_by(.riskLevel) | map({risk: .[0].riskLevel, count: length})' ~/.claude
 
 ## Uninstall
 
+**Tier 1 (npx install):**
+```bash
+npx claude-alert uninstall
+```
+
+**Tier 2 (cloned repo):**
 ```bash
 node setup/uninstall.js
 ```
 
 Use `--clean-all` to also remove audit logs and settings.
-
-Or if installed via npm:
-
-```bash
-npx claude-alert uninstall
-```
 
 ---
 
