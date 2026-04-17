@@ -43,7 +43,9 @@ export function notify(title, body, _platform = process.platform) {
     if (_platform === 'darwin') {
       const tnBin = path.join(os.homedir(), '.claude-notifier', 'bin', 'terminal-notifier.app', 'Contents', 'MacOS', 'terminal-notifier');
       if (fs.existsSync(tnBin)) {
-        execFileSync(tnBin, ['-title', safeTitle, '-message', safeBody, '-sound', 'default'], { stdio: 'ignore', timeout: 5000 });
+        const child = spawn(tnBin, ['-title', safeTitle, '-message', safeBody, '-sound', 'default'], { stdio: 'ignore', detached: true });
+        child.on('error', () => {});
+        child.unref();
       } else {
         execFileSync(
           'osascript',
